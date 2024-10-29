@@ -91,9 +91,26 @@ int zombie_proc_create_exit() {
     return 0;
 }
 
+int oprhan_proc_create_exit() {
+    pid_t pid = fork();
+    if (pid == -1) {
+        int err = errno;
+        perror("Fork Failed");
+        return err;
+    } else if (pid == 0) {
+        printf("Child's Parent pid after fork: %d\n", getppid());
+        sleep(2);
+        printf("Child's Parent pid after parent exits: %d\n", getppid());
+    } else {
+        sleep(1);
+    }
+    return 0;
+}
+
 int main() {
     // proper_proc_create();
     // proper_proc_create_exit();
-    zombie_proc_create_exit();
+    // zombie_proc_create_exit();
+    // oprhan_proc_create_exit();
     return 0;
 }
